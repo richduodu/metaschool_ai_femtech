@@ -5,6 +5,7 @@ export interface RawTranscriptLine {
 }
 
 export interface RawRadioShow {
+  script?: string;
   show_title: string;
   show_duration: string; // "MM:SS"
   two_sentence_summary: string;
@@ -23,6 +24,7 @@ export interface TranscriptLine {
 }
 
 export interface RadioShow {
+  script?: string;
   title: string;
   duration: number;
   summary: string;

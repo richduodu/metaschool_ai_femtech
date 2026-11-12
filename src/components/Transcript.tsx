@@ -3,12 +3,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { TranscriptLine } from '../types';
 
 interface TranscriptProps {
+  script?: string;
   transcript: TranscriptLine[];
   currentTime: number;
   onSeek: (time: number) => void;
 }
 
-export function Transcript({ transcript, currentTime, onSeek }: TranscriptProps) {
+export function Transcript({ transcript, currentTime, onSeek, script }: TranscriptProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +47,13 @@ export function Transcript({ transcript, currentTime, onSeek }: TranscriptProps)
       ref={containerRef}
       className="relative h-full overflow-y-auto scrollbar-hide px-4 md:px-8 pt-20 pb-80"
     >
+      {transcript.length === 0 && (
+        <div className="max-w-2xl mx-auto space-y-6 text-neutral-300 leading-relaxed">
+          <h2 className="text-lg font-semibold text-white">Lesson script</h2>
+          <p className="text-sm text-neutral-400">{script ? 'Original script · playback timestamps are not available.' : 'A transcript is not available for this episode.'}</p>
+          {script?.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+        </div>
+      )}
       <div className="flex flex-col gap-10">
         {transcript.map((line, index) => {
           const isActive = currentTime >= line.start && currentTime < line.end;
