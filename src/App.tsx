@@ -8,7 +8,7 @@ import {
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, User as FirebaseUser } from 'firebase/auth';
 import firebaseConfig from '../firebase-applet-config.json';
-import { DEFAULT_COVER_IMAGE, MOCK_SHOW, transformShow } from './data';
+import { DEFAULT_COVER_IMAGE, SAMPLE_SHOWS, transformShow } from './data';
 import { Transcript } from './components/Transcript';
 import { saveUserShow, getUserShows, deleteUserShow } from './lib/clientDb';
 import DOMPurify from 'dompurify';
@@ -175,8 +175,8 @@ const StudioBackground = () => (
 
 export default function App() {
   const [view, setView] = useState<'home' | 'player' | 'generating'>('home');
-  const [selectedShow, setSelectedShow] = useState(MOCK_SHOW);
-  const [library, setLibrary] = useState([MOCK_SHOW]);
+  const [selectedShow, setSelectedShow] = useState(SAMPLE_SHOWS[0]);
+  const [library, setLibrary] = useState(SAMPLE_SHOWS);
   
   // --- SHARING FLOW STATES ---
   const [isSharedPlaybackMode, setIsSharedPlaybackMode] = useState(false);
@@ -592,12 +592,12 @@ export default function App() {
           const transformedShows = (shows && shows.length > 0)
             ? shows.map(show => transformShow({
                 ...show,
-                coverImage: show.coverImage || "https://www.gstatic.com/aistudio/starter-apps/assets/ai_radio/cover.jpg"
+                coverImage: show.coverImage || DEFAULT_COVER_IMAGE
               }))
             : [];
 
-          // Merge: user shows + fetched public shows + baseline pre-generated show
-          const merged = [...userShows, ...transformedShows, MOCK_SHOW];
+          // Keep saved user episodes alongside the bundled lesson library.
+          const merged = [...userShows, ...transformedShows];
           const uniqueShows = merged.filter((show, index, self) =>
             index === self.findIndex((s) => s.title === show.title)
           );
@@ -609,7 +609,7 @@ export default function App() {
         })
         .catch(err => {
           console.error("Error loading public shows, using local fallback shows:", err);
-          const merged = [...userShows, MOCK_SHOW];
+          const merged = [...userShows, ...SAMPLE_SHOWS];
           const uniqueShows = merged.filter((show, index, self) =>
             index === self.findIndex((s) => s.title === show.title)
           );
@@ -1105,7 +1105,7 @@ export default function App() {
     setGenerationComplete(false);
     setCurrentStage('Initializing...');
 
-    let generatedShow: typeof MOCK_SHOW | null = null;
+    let generatedShow: (typeof SAMPLE_SHOWS)[number] | null = null;
 
     abortControllerRef.current = new AbortController();
     const generationId = Math.random().toString(36).substring(2, 15);
@@ -1364,7 +1364,7 @@ export default function App() {
     setIsGenerating(false);
   };
 
-  const selectShow = (show: typeof MOCK_SHOW) => {
+  const selectShow = (show: (typeof SAMPLE_SHOWS)[number]) => {
     setSelectedShow(show);
     setView('player');
     setCurrentTime(0);
@@ -1384,7 +1384,7 @@ export default function App() {
         if (updatedLib.length > 0) {
           setTimeout(() => setSelectedShow(updatedLib[0]), 0);
         } else {
-          setTimeout(() => setSelectedShow(MOCK_SHOW), 0);
+          setTimeout(() => setSelectedShow(SAMPLE_SHOWS[0]), 0);
         }
       }
       return updatedLib;
@@ -2205,6 +2205,7 @@ export default function App() {
             <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black to-transparent z-20 pointer-events-none"></div>
 
             <Transcript
+              script={selectedShow.script}
               transcript={selectedShow.transcript}
               currentTime={currentTime}
               onSeek={seek}
