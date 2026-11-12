@@ -44,7 +44,7 @@ export function Transcript({ transcript, currentTime, onSeek }: TranscriptProps)
   return (
     <div 
       ref={containerRef}
-      className="relative h-full overflow-y-auto scrollbar-hide px-8 pt-20 pb-80"
+      className="relative h-full overflow-y-auto scrollbar-hide px-4 md:px-8 pt-20 pb-80"
     >
       <div className="flex flex-col gap-10">
         {transcript.map((line, index) => {
@@ -59,18 +59,22 @@ export function Transcript({ transcript, currentTime, onSeek }: TranscriptProps)
               animate={{ 
                 opacity: 1,
               }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Seek to ${formatTime(line.start)}`}
+              onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSeek(line.start); } }}
               onClick={() => onSeek(line.start)}
-              className="relative cursor-pointer transition-all duration-500 group pl-12"
+              className="relative cursor-pointer transition-all duration-500 group pl-5 md:pl-8"
             >
               {isActive && (
                 <motion.div 
                   layoutId="activeBar"
-                  className="absolute left-0 top-1 bottom-1 w-1 bg-gradient-to-b from-[#4285f4] to-[#f4b400] rounded-full shadow-[0_0_15px_rgba(66,133,244,0.4)]"
+                  className="absolute left-0 top-1 bottom-1 w-1 bg-gradient-to-b from-[#9de4c3] to-[#51ad89] rounded-full shadow-[0_0_15px_rgba(66,133,244,0.4)]"
                 />
               )}
               
-              <div className="flex gap-14 items-start">
-                <span className={`font-mono text-xs pt-0.5 tracking-wider w-12 shrink-0 ${isActive ? 'text-[#5770ff] font-bold' : 'text-[#353e6d] font-semibold'}`}>
+              <div className="flex gap-4 md:gap-8 items-start">
+                <span className={`font-mono text-xs pt-0.5 tracking-wider w-12 shrink-0 ${isActive ? 'text-io-blue font-bold' : 'text-neutral-400 font-semibold'}`}>
                   {formatTime(line.start)}
                 </span>
                 <div className="flex flex-col gap-2.5">
