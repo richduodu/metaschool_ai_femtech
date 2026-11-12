@@ -1360,7 +1360,7 @@ async function startServer() {
     if (fs.existsSync(showsDir)) {
       const entries = fs.readdirSync(showsDir, { withFileTypes: true });
       for (const entry of entries) {
-        if (entry.isDirectory() && entry.name === 'default') {
+        if (entry.isDirectory()) {
           const showPath = path.join(showsDir, entry.name);
           const showNotesPath = path.join(showPath, 'show_notes.json');
 
@@ -1371,13 +1371,8 @@ async function startServer() {
               const mp3File = folderFiles.find(f => f.endsWith('.mp3'));
               const coverFile = folderFiles.find(f => f.endsWith('.png') || f.endsWith('.jpg') || f.endsWith('.jpeg'));
 
-              if (entry.name === 'default') {
-                showNotes.audioUrl = "https://www.gstatic.com/aistudio/starter-apps/assets/ai_radio/ai_radio.mp3";
-                showNotes.coverImage = "https://www.gstatic.com/aistudio/starter-apps/assets/ai_radio/cover.jpg";
-              } else {
-                showNotes.audioUrl = `/shows/${entry.name}/${mp3File || 'ai_radio.mp3'}`;
-                showNotes.coverImage = coverFile ? `/shows/${entry.name}/${coverFile}` : DEFAULT_SERVER_COVER_SVG_DATA_URI;
-              }
+              showNotes.audioUrl = `/shows/${entry.name}/${mp3File || 'ai_radio.mp3'}`;
+              showNotes.coverImage = coverFile ? `/shows/${entry.name}/${coverFile}` : '/shows/lesson-placeholder.svg';
               showNotes.notesUrl = `/shows/${entry.name}/show_notes.json`;
               shows.push(showNotes);
             } catch (err) {
