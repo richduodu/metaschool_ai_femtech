@@ -1749,26 +1749,10 @@ export default function App() {
             )}
 
             {/* Hero / Generator */}
-            <section className="space-y-8">
-              <div className="text-center space-y-3 mb-10 select-none">
-                <motion.h1
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-4xl md:text-6xl font-bold tracking-tight text-white/95 leading-[1.15]"
-                >
-                  Generate a <span className="text-gradient-io">radio show</span>
-                </motion.h1>
-                <p className="text-white/50 text-sm md:text-base font-medium font-sans">
-                  powered by{' '}
-                  <a 
-                    href="https://blog.google/innovation-and-ai/technology/developers-tools/managed-agents-gemini-api/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="hover:text-white underline underline-offset-4 decoration-white/20 hover:decoration-white transition-colors cursor-pointer"
-                  >
-                    gemini managed agents
-                  </a>
-                </p>
+            <section id="create" className="space-y-8">
+              <div className="studio-hero">
+                <h1>Create a radio show</h1>
+                <p>Choose a topic or paste a link. We’ll turn it into a conversation you can listen to.</p>
               </div>
 
               <form onSubmit={(e) => {
@@ -1782,7 +1766,7 @@ export default function App() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-2xl bg-black/40 border border-io-red/30 backdrop-blur-md flex items-center gap-3 text-white text-xs font-semibold"
+                    className="p-4 rounded-2xl bg-red-50 border border-io-red/30  flex items-center gap-3 text-red-800 text-xs font-semibold"
                   >
                     <ShieldAlert className="w-5 h-5 text-io-red shrink-0 font-sans" />
                     <span>Your daily quota of {quota.limit} generations has been reached. Please come back tomorrow to generate more custom interactive radio shows!</span>
@@ -1790,49 +1774,52 @@ export default function App() {
                 ) : null}
 
                 <div className="relative group/box">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-io-blue/10 via-io-green/10 to-io-yellow/10 rounded-[1.5rem] blur opacity-30 group-focus-within/box:opacity-50 transition duration-1000"></div>
-                  <div className="relative bg-[#0d0d0d]/85 backdrop-blur-3xl border border-white/10 rounded-[1.5rem] p-4 flex flex-col gap-3 group-focus-within/box:border-white/20 transition-all duration-300">
+                  <div className="studio-composer relative flex flex-col gap-3">
                     <div className="w-full">
+                      <label htmlFor="show-prompt" className="studio-field-label">What would you like to listen to?</label>
                       <textarea
-                        rows={2}
-                        placeholder="I want a talk radio show about...."
+                        id="show-prompt"
+                        rows={3}
+                        placeholder="e.g. How solar energy is changing everyday life"
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
-                        className="w-full bg-transparent p-2 text-sm md:text-base font-normal text-white/90 focus:outline-none placeholder:text-white/20 resize-none min-h-[50px] leading-relaxed"
+                        className="w-full bg-transparent p-2 text-sm md:text-base font-normal text-slate-900 focus:outline-none placeholder:text-slate-400 resize-none min-h-[50px] leading-relaxed"
                       />
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between border-t border-white/5 pt-3 mt-1.5 gap-4">
+                    <div className="flex flex-wrap items-center justify-between border-t border-slate-200 pt-3 mt-1.5 gap-4">
                       {/* Left controls */}
                       <div className="flex flex-wrap items-center gap-3">
                         {/* Duration Selector */}
-                        <div className="flex items-center gap-2 bg-white/[0.04] border border-white/5 rounded-full px-3 py-1.5 hover:bg-white/[0.08] transition-all relative focus-within:ring-2 focus-within:ring-io-blue focus-within:border-transparent">
-                          <Clock className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 hover:bg-slate-50 transition-all relative focus-within:ring-2 focus-within:ring-io-blue focus-within:border-transparent">
+                          <Clock className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                           <select
+                            aria-label="Episode duration"
                             value={targetDuration}
                             onChange={(e) => setTargetDuration(e.target.value)}
-                            className="bg-transparent border-none text-[11px] font-bold text-white/70 focus:outline-none focus:ring-0 cursor-pointer appearance-none uppercase tracking-wider pr-1"
+                            className="bg-transparent border-none text-[11px] font-bold text-slate-600 focus:outline-none focus:ring-0 cursor-pointer appearance-none tracking-normal pr-1"
                           >
-                            <option value="3" className="bg-neutral-900 text-white">3 Min</option>
-                            <option value="5" className="bg-neutral-900 text-white">5 Min</option>
-                            <option value="10" className="bg-neutral-900 text-white">10 Min</option>
-                            <option value="15" className="bg-neutral-900 text-white">15 Min</option>
+                            <option value="3" className="bg-white text-slate-900">3 Min</option>
+                            <option value="5" className="bg-white text-slate-900">5 Min</option>
+                            <option value="10" className="bg-white text-slate-900">10 Min</option>
+                            <option value="15" className="bg-white text-slate-900">15 Min</option>
                           </select>
                         </div>
 
                         {/* Mood Selector */}
-                        <div className="flex items-center gap-2 bg-white/[0.04] border border-white/5 rounded-full px-3 py-1.5 hover:bg-white/[0.08] transition-all relative focus-within:ring-2 focus-within:ring-io-blue focus-within:border-transparent">
-                          <List className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 hover:bg-slate-50 transition-all relative focus-within:ring-2 focus-within:ring-io-blue focus-within:border-transparent">
+                          <List className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                           <select
+                            aria-label="Episode mood"
                             value={targetMood}
                             onChange={(e) => setTargetMood(e.target.value)}
-                            className="bg-transparent border-none text-[11px] font-bold text-white/70 focus:outline-none focus:ring-0 cursor-pointer appearance-none uppercase tracking-wider pr-1"
+                            className="bg-transparent border-none text-[11px] font-bold text-slate-600 focus:outline-none focus:ring-0 cursor-pointer appearance-none tracking-normal pr-1"
                           >
-                            <option value="Informative" className="bg-neutral-900 text-white">Informative</option>
-                            <option value="Conversational" className="bg-neutral-900 text-white">Conversational</option>
-                            <option value="Late Night Chill" className="bg-neutral-900 text-white">Late Night Chill</option>
-                            <option value="Hype & Energetic" className="bg-neutral-900 text-white">Energetic</option>
-                            <option value="Experimental" className="bg-neutral-900 text-white">Experimental</option>
+                            <option value="Informative" className="bg-white text-slate-900">Informative</option>
+                            <option value="Conversational" className="bg-white text-slate-900">Conversational</option>
+                            <option value="Late Night Chill" className="bg-white text-slate-900">Late Night Chill</option>
+                            <option value="Hype & Energetic" className="bg-white text-slate-900">Energetic</option>
+                            <option value="Experimental" className="bg-white text-slate-900">Experimental</option>
                           </select>
                         </div>
                       </div>
@@ -1842,7 +1829,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={handleSignIn}
-                          className="px-5 py-2 bg-white text-black hover:bg-zinc-100 rounded-full font-bold uppercase tracking-wider text-[11px] transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-black/30 animate-pulse hover:animate-none"
+                          className="px-5 py-2 bg-blue-900 text-white hover:bg-blue-800 rounded-lg font-medium text-xs transition-colors inline-flex items-center justify-center gap-2.5 cursor-pointer"
                         >
                           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -1856,7 +1843,7 @@ export default function App() {
                         <button
                           type="submit"
                           disabled={isGenerating || (quota && quota.remaining <= 0 && !IS_DEV)}
-                          className="px-6 py-2 bg-white text-black hover:bg-zinc-200 disabled:opacity-50 disabled:hover:bg-white rounded-full font-bold uppercase tracking-wider text-[11px] transition-all inline-flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-black/30"
+                          className="studio-create-button px-6 py-2 bg-white text-black hover:bg-zinc-200 disabled:opacity-50 disabled:hover:bg-white rounded-full font-bold tracking-normal text-[11px] transition-all inline-flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-black/30"
                         >
                           {isGenerating ? (
                             <>
@@ -1865,13 +1852,8 @@ export default function App() {
                             </>
                           ) : (
                             <>
-                              Generate
-                              <img 
-                                src="https://www.gstatic.com/lamda/images/gemini_sparkle_aurora_33f86dc0c0257da337c63.svg" 
-                                alt="Gemini" 
-                                className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300 pointer-events-none select-none"
-                                referrerPolicy="no-referrer"
-                              />
+                              Create episode
+                              <Radio className="w-4 h-4" />
                             </>
                           )}
                         </button>
@@ -1881,10 +1863,10 @@ export default function App() {
                 </div>
 
                 {/* Sub-generation time & privacy guideline */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 text-[11px] text-white/30">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-1 text-[11px] text-slate-600">
                   <div className="flex items-center gap-2 font-medium">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04]/80 animate-pulse shadow-[0_0_6px_rgba(251,188,4,0.5)]" />
-                    <span>Each radio show generation takes <strong className="text-white/60 font-bold">~5 minutes</strong> to research and voice.</span>
+                    <span>Each radio show generation takes <strong className="text-slate-600 font-bold">~5 minutes</strong> to research and voice.</span>
                   </div>
                   <div className="flex items-center gap-3.5">
                     <span>Please do not submit any sensitive or personal information.</span>
