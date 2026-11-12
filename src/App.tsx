@@ -1689,7 +1689,7 @@ export default function App() {
         <div className="relative z-10 w-full h-full overflow-y-auto">
           <div className="studio-home mx-auto space-y-9 px-5 py-6 md:px-10 md:py-8">
             <nav className="studio-nav" aria-label="Main navigation">
-              <a href="#" className="studio-brand"><span className="studio-brand-icon"><Radio size={21} /></span> Radio Studio</a>
+              <a href="#" className="studio-brand"><span className="studio-brand-icon"><Radio size={21} /></span> Lesson Podcast Generator</a>
               <div className="studio-nav-links"><a href="#create" className="studio-nav-active">Create</a><a href="#library-section">Your library</a></div>
 
             </nav>
