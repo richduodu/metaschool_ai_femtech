@@ -1751,7 +1751,7 @@ export default function App() {
             {/* Hero / Generator */}
             <section id="create" className="space-y-8">
               <div className="studio-hero">
-                <h1>Create a radio show</h1>
+                <h1>Create a lesson podcast</h1>
                 <p>Choose a topic or paste a link. We’ll turn it into a conversation you can listen to.</p>
               </div>
 
