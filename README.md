@@ -1,4 +1,4 @@
-# AI Talk Radio
+# Lesson Podcast Generator
 
 Turn a topic, article URL, GitHub repository, or Hacker News story into a radio show with a host, callers, background music, cover art, and a synchronized transcript.
 
