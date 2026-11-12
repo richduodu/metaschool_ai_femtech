@@ -1875,19 +1875,20 @@ export default function App() {
               </form>
 
               {/* Dynamic Categories & Templates Panel (Perplexity-style "Try Computer") */}
-              <div className="bg-[#0e0e0e]/50 border border-white/5 rounded-[1.5rem] p-5 flex flex-col gap-4 backdrop-blur-md">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4">
+              <div className="studio-templates flex flex-col gap-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-white/40" />
-                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">Try a template</span>
+
+                    <span className="text-sm font-semibold text-slate-600">Need an idea?</span>
                   </div>
-                  <div className="flex gap-1 p-0.5 bg-white/[0.03] border border-white/5 rounded-full shrink-0">
+                  <div className="flex gap-1 p-0.5 bg-slate-50 border border-slate-200 rounded-full shrink-0">
                     {templateCategories.map((cat) => (
                       <button
                         key={cat.id}
+                        aria-pressed={selectedCategory === cat.id}
                         type="button"
                         onClick={() => setSelectedCategory(cat.id)}
-                        className={`px-3.5 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider cursor-pointer ${selectedCategory === cat.id ? 'bg-white text-black font-extrabold shadow-sm' : 'text-white/55 hover:text-white/85'}`}
+                        className={`px-3.5 py-1.5 rounded-full text-[10px] font-bold transition-all tracking-normal cursor-pointer ${selectedCategory === cat.id ? 'bg-blue-50 text-blue-900 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
                       >
                         {cat.label}
                       </button>
@@ -1907,15 +1908,15 @@ export default function App() {
                         document.querySelector('form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                       }}
                       disabled={isGenerating || (quota && quota.remaining <= 0)}
-                      className="text-left p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] active:bg-white/[0.06] transition-all duration-200 group relative overflow-hidden cursor-pointer"
+                      className="studio-template text-left p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-200 hover:bg-slate-50 active:bg-slate-50 transition-all duration-200 group relative overflow-hidden cursor-pointer"
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-sm font-bold text-white/90 group-hover:text-white transition-colors">
+                        <span className="text-sm font-bold text-slate-900 group-hover:text-slate-900 transition-colors">
                           {tmpl.title}
                         </span>
-                        <span className="text-xs text-white/30 group-hover:text-white/70 transition-transform group-hover:translate-x-0.5 font-bold">→</span>
+                        <span className="text-xs text-slate-600 group-hover:text-slate-600 transition-colors font-bold">→</span>
                       </div>
-                      <p className="text-xs text-white/50 mt-1 font-medium leading-relaxed group-hover:text-white/75 transition-colors">
+                      <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed group-hover:text-slate-600 transition-colors">
                         {tmpl.desc}
                       </p>
                     </button>
@@ -1927,9 +1928,9 @@ export default function App() {
             {/* Library */}
             <section className="space-y-6 pt-4">
               <div className="space-y-1">
-                <h3 id="library-section" className="text-xl md:text-2xl font-bold tracking-tight text-white/90">Radio Show Library</h3>
-                <p className="text-xs text-white/45 font-medium leading-relaxed">
-                  You can immediately play and listen to these pre-generated shows to preview the experience.
+                <h3 id="library-section" className="text-xl md:text-2xl font-bold tracking-tight text-slate-900">Your library <span className="studio-count">{library.length}</span></h3>
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                  Your saved shows, ready to play.
                 </p>
               </div>
               <div className="space-y-4 pb-32">
@@ -1942,15 +1943,16 @@ export default function App() {
                   onClick={() => selectShow(show)}
                   tabIndex={0}
                   onKeyDown={(e) => {
+                    if (e.target !== e.currentTarget) return;
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
                       selectShow(show);
                     }
                   }}
-                  className="group cursor-pointer flex flex-col sm:flex-row gap-6 sm:gap-8 p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 hover:from-white/15 hover:to-white/10 hover:border-white/40 border border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-io-blue focus-visible:border-transparent transition-all relative overflow-hidden shadow-2xl backdrop-blur-md"
+                  className="studio-episode group cursor-pointer flex flex-col sm:flex-row gap-5 sm:gap-7 p-4 sm:p-5 rounded-2xl border border-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-io-blue transition-all relative overflow-hidden"
                 >
-                  <div className="w-full h-48 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden relative shrink-0 shadow-inner bg-black/20">
-                    <img src={show.coverImage} className="w-full h-full object-cover transition-all duration-700 opacity-100 group-hover:opacity-70 group-hover:grayscale" alt="" />
+                  <div className="w-full h-48 sm:w-32 sm:h-32 md:w-32 md:h-32 rounded-2xl overflow-hidden relative shrink-0 shadow-inner bg-black/20">
+                    <img src={show.coverImage} className="w-full h-full object-cover transition-all duration-700 opacity-100 group-hover:opacity-90" alt="" />
                     <div className="absolute inset-0 bg-transparent group-hover:bg-black/60 transition-colors duration-500" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black shadow-[0_0_20px_rgba(255,255,255,0.5)]">
@@ -1961,17 +1963,17 @@ export default function App() {
                   <div className="flex-1 flex flex-col justify-center space-y-4 w-full min-w-0">
                     <div className="flex justify-between items-start gap-4">
                       <div className="space-y-1 min-w-0 flex-1">
-                        <h4 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white/90 group-hover:text-white transition-colors drop-shadow-sm text-balance break-words">{show.title}</h4>
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-xs font-bold tracking-widest uppercase text-white/70">
+                        <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 group-hover:text-slate-900 transition-colors  text-balance break-words">{show.title}</h4>
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-xs font-bold tracking-widest uppercase text-slate-600">
                           <span className="flex items-center gap-1.5 whitespace-nowrap"><Clock className="w-3 h-3" /> {formatTime(show.duration)}</span>
-                          <span className="hidden sm:inline w-3 h-[2px] bg-white/40" />
+                          <span className="hidden sm:inline w-3 h-[2px] bg-slate-100" />
                           <span className="flex items-center gap-1.5 whitespace-nowrap"><Radio className="w-3 h-3" /> {show.host}</span>
                         </div>
                       </div>
                     <div className="flex gap-2 shrink-0">
                       <button
                         onClick={(e) => handleDownload(e, show)}
-                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/20 flex items-center justify-center text-white transition-colors shrink-0 z-10 relative"
+                        className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-100 flex items-center justify-center text-white transition-colors shrink-0 z-10 relative"
                         title="Download Show Bundle"
                       >
                         <Download className="w-4 h-4" />
@@ -1991,13 +1993,11 @@ export default function App() {
                       )}
                     </div>
                     </div>
-                    <p className="text-xs sm:text-sm md:text-base text-white/80 font-medium leading-relaxed max-w-2xl line-clamp-2 md:line-clamp-none drop-shadow-sm">
+                    <p className="text-xs sm:text-sm md:text-base text-slate-600 font-medium leading-relaxed max-w-2xl line-clamp-2 md:line-clamp-none ">
                       {show.summary}
                     </p>
                   </div>
 
-                  {/* Decorative background number */}
-                  <span className="hidden sm:block absolute -right-4 -bottom-8 text-9xl font-bold text-white/[0.04] group-hover:text-white/[0.08] transition-colors pointer-events-none select-none tracking-tighter">0{i+1}</span>
                 </motion.div>
               ))}
             </div>
