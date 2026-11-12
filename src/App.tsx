@@ -1683,17 +1683,22 @@ export default function App() {
     };
 
     return (
-      <div className="fixed inset-0 w-full h-full bg-black text-white overflow-hidden font-sans select-none flex flex-col">
-        <StudioBackground />
+      <div className="fixed inset-0 w-full h-full studio-light bg-[#f8fafc] text-slate-900 overflow-hidden font-sans flex flex-col">
+
 
         <div className="relative z-10 w-full h-full overflow-y-auto">
-          <div className="max-w-4xl mx-auto space-y-12 p-6 md:p-16">
+          <div className="studio-home mx-auto space-y-9 px-5 py-6 md:px-10 md:py-8">
+            <nav className="studio-nav" aria-label="Main navigation">
+              <a href="#" className="studio-brand"><span className="studio-brand-icon"><Radio size={21} /></span> Radio Studio</a>
+              <div className="studio-nav-links"><a href="#create" className="studio-nav-active">Create</a><a href="#library-section">Your library</a></div>
+
+            </nav>
             {/* Header */}
             {!IS_DEV && (authLoading || currentUser) && (
-              <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/[0.02] border border-white/5 rounded-2xl p-4 backdrop-blur-md">
+              <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-4 ">
                 <div className="flex items-center gap-3">
                   {authLoading ? (
-                    <div className="flex items-center gap-2 text-[10px] font-bold font-mono text-white/40">
+                    <div className="flex items-center gap-2 text-[10px] font-bold font-mono text-slate-600">
                       <Loader2 className="w-3 h-3 animate-spin text-io-blue" />
                       <span>CHECKING SECURE SESSION...</span>
                     </div>
@@ -1704,25 +1709,25 @@ export default function App() {
                           src={currentUser.photoURL}
                           alt={currentUser.displayName || 'User'}
                           referrerPolicy="no-referrer"
-                          className="w-7 h-7 rounded-full border border-white/25 shadow-sm"
+                          className="w-7 h-7 rounded-full border border-slate-200 shadow-sm"
                         />
                       ) : (
-                        <div className="w-7 h-7 rounded-full bg-io-blue border border-white/25 shadow-sm flex items-center justify-center text-[10px] font-bold text-white">
+                        <div className="w-7 h-7 rounded-full bg-blue-900 border border-slate-200 shadow-sm flex items-center justify-center text-[10px] font-bold text-white">
                           {currentUser.displayName ? currentUser.displayName[0].toUpperCase() : 'U'}
                         </div>
                       )}
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-white/90 leading-tight">
+                        <span className="text-[10px] font-bold text-slate-900 leading-tight">
                           {currentUser.displayName || "Google User"}
                         </span>
-                        <span className="text-[9px] font-medium font-mono text-white/40 leading-none mt-0.5">
+                        <span className="text-[9px] font-medium font-mono text-slate-600 leading-none mt-0.5">
                           {currentUser.email}
                         </span>
                       </div>
                       <button
                         type="button"
                         onClick={handleSignOut}
-                        className="ml-2 text-[9px] font-bold font-mono text-white/40 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 px-2.5 py-1 rounded-full transition-all duration-200 cursor-pointer"
+                        className="ml-2 text-[9px] font-bold font-mono text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full transition-all duration-200 cursor-pointer"
                       >
                         SIGN OUT
                       </button>
@@ -1732,7 +1737,7 @@ export default function App() {
 
                 {currentUser && quota && (
                   <div
-                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/5 text-[10px] font-bold font-mono tracking-tight text-white/90"
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-bold font-mono tracking-tight text-slate-900"
                   >
                     <div className={`w-1.5 h-1.5 rounded-full ${quota.remaining > 0 ? 'bg-io-green animate-pulse' : 'bg-io-red'}`} />
                     <span>
