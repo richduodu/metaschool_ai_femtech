@@ -169,17 +169,8 @@ const getAIStudioBuildUrl = (appletId: string): string => {
   return `${baseDomain}/build?clone=${appletId}`;
 };
 
-const RainbowBackground = () => (
-  <>
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vh] rounded-full bg-[#ff00a2]/40 mix-blend-screen filter blur-[120px] animate-blob" />
-      <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-[#143dff]/40 mix-blend-screen filter blur-[120px] animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-[20%] left-[10%] w-[70vw] h-[70vh] rounded-full bg-[#43ff0d]/30 mix-blend-screen filter blur-[120px] animate-blob animation-delay-4000" />
-      <div className="absolute -bottom-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-[#ffc500]/30 mix-blend-screen filter blur-[120px] animate-blob animation-delay-6000" />
-      <div className="absolute top-[30%] left-[30%] w-[50vw] h-[50vh] rounded-full bg-[#ff2a2a]/30 mix-blend-screen filter blur-[120px] animate-blob animation-delay-3000" />
-    </div>
-    <div className="absolute inset-0 bg-black/50 backdrop-blur-[60px] z-0 pointer-events-none" />
-  </>
+const StudioBackground = () => (
+  <div className="studio-background" aria-hidden="true" />
 );
 
 export default function App() {
@@ -1425,7 +1416,7 @@ export default function App() {
   if (view === 'generating') {
     return (
       <div className="fixed inset-0 w-full h-full bg-black text-white flex flex-col items-center justify-center p-6 overflow-hidden pb-10">
-        <RainbowBackground />
+        <StudioBackground />
 
         <div className="w-full max-w-4xl relative z-10 flex flex-col h-full overflow-hidden">
           <div className="text-center space-y-4 mb-8 shrink-0 mt-8">
@@ -1693,7 +1684,7 @@ export default function App() {
 
     return (
       <div className="fixed inset-0 w-full h-full bg-black text-white overflow-hidden font-sans select-none flex flex-col">
-        <RainbowBackground />
+        <StudioBackground />
 
         <div className="relative z-10 w-full h-full overflow-y-auto">
           <div className="max-w-4xl mx-auto space-y-12 p-6 md:p-16">
@@ -2033,7 +2024,7 @@ export default function App() {
   if (sharedShowLoading) {
     return (
       <div className="fixed inset-0 w-full h-full bg-black text-white flex flex-col items-center justify-center p-6 overflow-hidden">
-        <RainbowBackground />
+        <StudioBackground />
         <div className="space-y-6 text-center max-w-md relative z-10 w-full">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 border border-white/10 relative">
             <div className="absolute inset-0 rounded-full border border-io-blue/40 animate-[spin_6s_linear_infinite]" />
@@ -2051,7 +2042,7 @@ export default function App() {
   if (sharedShowError) {
     return (
       <div className="fixed inset-0 w-full h-full bg-black text-white flex flex-col items-center justify-center p-6 overflow-hidden">
-        <RainbowBackground />
+        <StudioBackground />
         <div className="space-y-8 text-center max-w-md relative z-10 p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-md shadow-2xl w-full">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-100 font-bold">
             <AlertCircle className="w-8 h-8 text-red-400" />
@@ -2072,8 +2063,8 @@ export default function App() {
   }
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black text-white overflow-hidden font-sans select-none flex flex-col">
-      <RainbowBackground />
+    <div className="fixed inset-0 w-full h-full bg-[#101514] text-white overflow-hidden font-sans flex flex-col">
+      <StudioBackground />
 
       <div className="absolute inset-0 z-10 w-full h-full flex flex-col lg:flex-row">
 
